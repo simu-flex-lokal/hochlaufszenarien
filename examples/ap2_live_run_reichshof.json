@@ -1,0 +1,149 @@
+{
+  "ags": "05374040",
+  "gemeinde": "Reichshof",
+  "pv_total_kfw_base": 0.16,
+  "households_infdb": 7494,
+  "scenarios": {
+    "kfw_basis": {
+      "pv_total_input": 0.16,
+      "n_buildings": 4185,
+      "n_households": 7595,
+      "pv_buildings": 1022,
+      "pv_share_buildings": 0.2442,
+      "pv_mwp": 7.103,
+      "pv_mean_kwp": 6.95,
+      "battery_buildings": 641,
+      "heatpump_buildings": 437,
+      "heatpump_mw": 4.296,
+      "ev_households": 683,
+      "ev_share_hh": 0.0899,
+      "balcony_households": 355,
+      "objekttyp_top": {
+        "keine": 5044,
+        "PV+BAT": 614,
+        "EV": 440,
+        "PV": 421,
+        "WP+WS": 393,
+        "BKW": 288,
+        "PV+BAT+EV": 89,
+        "PV+BAT+WP+WS": 77
+      }
+    },
+    "ap31_p50_2025": {
+      "pv_total_input": 0.21027,
+      "n_buildings": 4185,
+      "n_households": 7595,
+      "pv_buildings": 1358,
+      "pv_share_buildings": 0.3245,
+      "pv_mwp": 9.41,
+      "pv_mean_kwp": 6.93,
+      "battery_buildings": 648,
+      "heatpump_buildings": 437,
+      "heatpump_mw": 4.296,
+      "ev_households": 683,
+      "ev_share_hh": 0.0899,
+      "balcony_households": 347,
+      "objekttyp_top": {
+        "keine": 4711,
+        "PV": 771,
+        "PV+BAT": 591,
+        "EV": 389,
+        "WP+WS": 352,
+        "BKW": 294,
+        "PV+EV": 103,
+        "PV+BAT+EV": 101
+      },
+      "ap31_target_mwp": 9.4,
+      "machbar": true
+    },
+    "ap31_p50_2030": {
+      "pv_total_input": 0.30493,
+      "n_buildings": 4185,
+      "n_households": 7595,
+      "pv_buildings": 1964,
+      "pv_share_buildings": 0.4693,
+      "pv_mwp": 13.74,
+      "pv_mean_kwp": 7.0,
+      "battery_buildings": 654,
+      "heatpump_buildings": 437,
+      "heatpump_mw": 4.296,
+      "ev_households": 683,
+      "ev_share_hh": 0.0899,
+      "balcony_households": 357,
+      "objekttyp_top": {
+        "keine": 4031,
+        "PV": 1437,
+        "PV+BAT": 601,
+        "BKW": 298,
+        "EV": 293,
+        "WP+WS": 269,
+        "PV+EV": 180,
+        "PV+WP+WS": 170
+      },
+      "ap31_target_mwp": 13.87,
+      "machbar": true
+    },
+    "ap31_p50_2035": {
+      "ap31_target_mwp": 16.94,
+      "machbar": false,
+      "grund": "uebersteigt KfW-Struktur-Decke",
+      "decke_mwp": 16.404,
+      "decke_pv_total": 0.3618,
+      "luecke_mwp": 0.536
+    },
+    "ap31_p50_2040": {
+      "ap31_target_mwp": 19.43,
+      "machbar": false,
+      "grund": "uebersteigt KfW-Struktur-Decke",
+      "decke_mwp": 16.404,
+      "decke_pv_total": 0.3618,
+      "luecke_mwp": 3.026
+    },
+    "ap31_p50_2045": {
+      "ap31_target_mwp": 21.26,
+      "machbar": false,
+      "grund": "uebersteigt KfW-Struktur-Decke",
+      "decke_mwp": 16.404,
+      "decke_pv_total": 0.3618,
+      "luecke_mwp": 4.856
+    },
+    "ap31_p50_2050": {
+      "ap31_target_mwp": 22.6,
+      "machbar": false,
+      "grund": "uebersteigt KfW-Struktur-Decke",
+      "decke_mwp": 16.404,
+      "decke_pv_total": 0.3618,
+      "luecke_mwp": 6.196
+    },
+    "ap31_2040_konservativ": {
+      "ap31_target_mwp": 18.09,
+      "machbar": false,
+      "grund": "uebersteigt KfW-Struktur-Decke",
+      "decke_mwp": 16.404,
+      "decke_pv_total": 0.3618,
+      "luecke_mwp": 1.686
+    },
+    "ap31_2040_referenz": {
+      "ap31_target_mwp": 19.43,
+      "machbar": false,
+      "grund": "uebersteigt KfW-Struktur-Decke",
+      "decke_mwp": 16.404,
+      "decke_pv_total": 0.3618,
+      "luecke_mwp": 3.026
+    },
+    "ap31_2040_ambitioniert": {
+      "ap31_target_mwp": 21.69,
+      "machbar": false,
+      "grund": "uebersteigt KfW-Struktur-Decke",
+      "decke_mwp": 16.404,
+      "decke_pv_total": 0.3618,
+      "luecke_mwp": 5.286
+    }
+  },
+  "struktur_decke": {
+    "pv_total": 0.3618,
+    "pv_mwp": 16.404,
+    "pv_buildings": 2346,
+    "pv_share_buildings": 0.5606
+  }
+}

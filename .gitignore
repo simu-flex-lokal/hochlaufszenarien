@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Daten / Ausgaben (werden aus den Quellen gebaut, nicht versioniert)
+data/
+*.sqlite
+*.sqlite-*
+
+# Caches
+.cache/
+cache/
