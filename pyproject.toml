@@ -33,3 +33,8 @@ module-root = ""
 
 [tool.uv.sources]
 ethos-builda-client = { git = "https://github.com/FZJ-IEK3-VSA/ethos-builda-client.git" }
+
+[dependency-groups]
+dev = [
+    "jupyterlab>=4.6.5",
+]
