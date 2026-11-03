@@ -1,0 +1,18 @@
+{
+ "model_weights": {
+  "Bass": 0.032,
+  "Bertalanffy": 0.0777,
+  "Gompertz": 0.0644,
+  "Logistisch": 0.025,
+  "Richards-4p": 0.0798,
+  "Richards-5p": 0.069,
+  "Bi-Bass": 0.0942,
+  "Bi-Bertalanffy": 0.1265,
+  "Bi-Gompertz": 0.1122,
+  "Bi-Logistisch": 0.0519,
+  "Bi-Richards-4p": 0.1384,
+  "Bi-Richards-5p": 0.129
+ },
+ "n_similar": 121,
+ "last_MWp": 9.71
+}

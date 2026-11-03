@@ -14,7 +14,7 @@ dependencies = [
     "matplotlib>=3.11.1",
     "numpy>=2.4.6",
     "pandas>=3.0.5",
-    "psycopg2>=2.9.12",
+    "psycopg2-binary>=2.9.12",
     "pyarrow>=25.0.1",
     "scipy>=1.17.1",
     "tqdm>=4.70.0",
@@ -29,6 +29,7 @@ build-backend = "uv_build"
 
 [tool.uv.build-backend]
 module-name = "pv_hochlauf"
+module-root = ""
 
 [tool.uv.sources]
 ethos-builda-client = { git = "https://github.com/FZJ-IEK3-VSA/ethos-builda-client.git" }
