@@ -300,13 +300,17 @@ Elemente optional für Sensitivitäten/Peer-Effekte. Passt zur Zuarbeit an JHC (
 | BS4 | Hesse et al. (2017) | Ökonomisch optimale Dimensionierung residentieller PV-BESS (Ø-Größe) | 10.3390/en10070835 | Größe | 2 |
 | BS5 | Ciocia et al. (2021) | Self-Consumption/-Sufficiency PV: Effekt von Netzlimit & Speicher (Sizing) | 10.3390/en14061591 | Größe | 2 |
 | BS6 | Jannesar et al. (2018) | Optimale Platzierung/Dimensionierung von Batteriespeichern in NS-Netzen mit hoher PV | 10.1016/j.apenergy.2018.06.036 | Raum | 3 |
+| BS7 | **Fett et al. (2021)** | Diffusion & Systemwirkung residentieller Batteriespeicher unter versch. Regulierung (DE) — **Prosumer-Diffusionsmodell + ABM-Marktsimulation** | 10.1016/j.enpol.2021.112543 | Zeit | 1 |
+| BS8 | Klingler (2017) | Marktdiffusionsmodell PV+Batterie mit Konsumentenverhalten/-präferenzen (DE); erklärt die bisherige Heimspeicher-Entwicklung | 10.1016/j.apenergy.2017.08.159 | Zeit | 2 |
 
 **Synthese (Batteriespeicher):** Modellierung strikt als **PV-Folgetechnologie** — Kopplungsquote
 statt Potentialrechnung. `N_BS,s(t) = n_PV,s(t)`. Zeitpfad der Quote **wirtschaftlichkeitsgetrieben**
 (BS1, BS2) und **netzentgelt-/§14a-sensitiv** (BS3, DE — hoher Projektbezug: zeitvariable Entgelte
 erhöhen den Speicheranreiz). Ø-Kapazität aus MaStR-Verteilung bzw. Sizing-Logik (BS4, BS5; Speicher
 skaliert mit PV-Größe & Eigenverbrauchsziel). Ist-Kopplungsquote direkt aus **MaStR** (PV mit
-registriertem Speicher). Details in [methodik/batteriespeicher.md](methodik/batteriespeicher.md).
+registriertem Speicher). **Optional (mehr Tiefe):** Batterie als eigener Diffusionsprozess modellieren
+— DE-Methodik in BS7 (Prosumer-Diffusion + ABM) und BS8 (PV+Batterie-Marktdiffusion). Details in
+[methodik/batteriespeicher.md](methodik/batteriespeicher.md).
 
 ### 3.5 Dezentraler Wärmespeicher (an WP gekoppelt, nachrangig)
 
