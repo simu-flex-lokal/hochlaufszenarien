@@ -1,19 +1,13 @@
-# PV-Hochlaufszenarien (AP 3.1)
+# Hochlaufszenarien (AP 3.1)
 
-PV-Hochlaufmodell für **SIMU-FLEX LOKAL**, Teilprojekt FH Aachen / NOWUM-Energy.
+Hochlaufmodell für **SIMU-FLEX LOKAL**, Teilprojekt FH Aachen / NOWUM-Energy.
 
 Das Modell schätzt, wie viel **PV-Leistung (MWp)** eine Gemeinde pro Stützjahr bis 2050
-hat — als Unsicherheitsband, nicht als Punktwert. Kern ist ein **probabilistisches
+hat. Kern ist ein **probabilistisches
 Diffusions-Ensemble** (nach Zielonka et al. 2023), verankert am MaStR-Istwert und
 nach oben begrenzt durch das **BUILDA-Dachpotenzial**.
 
-> **Scope:** vorerst nur **PV**. Weitere Technologien (WP, EV, Speicher) kommen später
-> mit derselben Methodik.
-
-## Herkunft
-
-Der Modellkern (`pv_hochlauf/`) baut auf dem Praxisprojekt von **Jan Körtgen** auf.
-Details und Abgrenzung unserer Ergänzungen: [`pv_hochlauf/PROVENANCE.md`](pv_hochlauf/PROVENANCE.md).
+> **Scope:** vorerst nur **PV**. Weitere Technologien (WP, EV, Speicher) kommen später dazu.
 
 ## Aufbau
 
