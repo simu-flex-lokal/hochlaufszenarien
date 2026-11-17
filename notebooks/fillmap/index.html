@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>PV-Hochlauf Reichshof — Karte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: Vollflächige Canvas-Karte mit schwebender Steuer-/Kennzahlenleiste; darunter Gruppen-Fortschritt. */
+:root{
+  --bg:#f4f6f5; --surface:#ffffff; --surface-2:#eef2f0; --panel:rgba(255,255,255,.88);
+  --ink:#16201c; --muted:#596a63; --faint:#8a9a92; --line:#dbe3df;
+  --accent:#0e7c73; --accent-soft:#d2e8e4;
+  --solar:#e79a2b; --solar-glow:#ffcf6e; --none:#c3cec9;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0e1411; --surface:#151d19; --surface-2:#1b2521; --panel:rgba(18,26,22,.86);
+  --ink:#e7efea; --muted:#9db0a7; --faint:#6b7d75; --line:#273530;
+  --accent:#3bb3a6; --accent-soft:#163a35;
+  --solar:#f0ad46; --solar-glow:#ffd27a; --none:#3c4a44; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0e1411; --surface:#151d19; --surface-2:#1b2521; --panel:rgba(18,26,22,.86);
+  --ink:#e7efea; --muted:#9db0a7; --faint:#6b7d75; --line:#273530;
+  --accent:#3bb3a6; --accent-soft:#163a35;
+  --solar:#f0ad46; --solar-glow:#ffd27a; --none:#3c4a44; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;
+  -webkit-font-smoothing:antialiased;display:flex;flex-direction:column;}
+.wrap{max-width:1100px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:14px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:clamp(18px,3vw,30px);flex:1;min-height:0;}
+h1{font-family:"Archivo",sans-serif;font-weight:700;font-size:clamp(21px,3.2vw,30px);margin:0;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--muted);margin:4px 0 0;max-width:62ch;font-size:14.5px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:500}
+
+/* Kartenfläche */
+.stage{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  background:var(--surface);min-height:360px;flex:1;}
+canvas{display:block;width:100%;height:100%}
+.stat{position:absolute;top:12px;left:12px;background:var(--panel);backdrop-filter:blur(8px);
+  border:1px solid var(--line);border-radius:11px;padding:12px 14px;min-width:168px;
+  box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.stat .yr{font-family:"Archivo",sans-serif;font-weight:700;font-size:30px;line-height:1;letter-spacing:-.01em;
+  font-variant-numeric:tabular-nums}
+.stat .row{display:flex;justify-content:space-between;gap:14px;margin-top:9px;font-size:13px}
+.stat .row b{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-weight:500}
+.stat .big{color:var(--solar)}
+.legend{position:absolute;bottom:12px;left:12px;background:var(--panel);backdrop-filter:blur(8px);
+  border:1px solid var(--line);border-radius:10px;padding:8px 11px;display:flex;gap:14px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* Steuerung */
+.controls{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--surface);
+  border:1px solid var(--line);border-radius:12px;padding:12px 14px;}
+.play{appearance:none;border:0;background:var(--accent);color:#fff;width:42px;height:42px;border-radius:11px;
+  cursor:pointer;font-size:17px;display:grid;place-items:center;flex:none}
+.play:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.scrub{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px}
+.scrub input{width:100%;accent-color:var(--solar)}
+.ticks{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint)}
+.pills{display:flex;gap:6px;background:var(--surface-2);padding:4px;border-radius:10px}
+.pills button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;
+  padding:6px 12px;border-radius:7px;cursor:pointer;font-weight:500;white-space:nowrap}
+.pills button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+
+/* Gruppen-Fortschritt */
+.groups{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gcard{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:13px 15px}
+.gcard .t{font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between}
+.gcard .v{font-family:"Archivo",sans-serif;font-weight:700;font-size:21px;margin-top:3px;font-variant-numeric:tabular-nums}
+.track{height:7px;background:var(--surface-2);border-radius:4px;margin-top:9px;overflow:hidden}
+.fill{height:100%;background:var(--solar);border-radius:4px;transition:width .25s ease}
+footer{color:var(--faint);font-size:12px;max-width:70ch}
+footer a{color:var(--accent)}
+@media(max-width:620px){ .groups{grid-template-columns:1fr 1fr} .stat{min-width:150px} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">AP 3.1 → AP 2 · Reichshof · 2025–2050</div>
+    <h1>Welche Dächer bekommen wann PV?</h1>
+    <p class="sub">Jeder Punkt ist ein Wohngebäude. Es leuchtet auf, sobald im Hochlauf eine PV-Anlage
+    darauf entsteht, so groß wie das Dach laut Solarkataster NRW erlaubt und in der von AP 3.1 vorgegebenen Menge. Spiele den
+    Zeitverlauf ab und wechsle das Szenario.</p>
+  </header>
+
+  <div class="controls">
+    <button class="play" id="play" aria-label="Abspielen">▶</button>
+    <div class="scrub">
+      <input id="slider" type="range" min="2025" max="2050" step="0.1" value="2025" aria-label="Jahr">
+      <div class="ticks"><span>2025</span><span>2030</span><span>2035</span><span>2040</span><span>2045</span><span>2050</span></div>
+    </div>
+    <div class="pills" id="pills" role="group" aria-label="Szenario">
+      <button data-s="konservativ">konservativ</button>
+      <button data-s="referenz" aria-pressed="true">referenz</button>
+      <button data-s="ambitioniert">ambitioniert</button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <canvas id="map"></canvas>
+    <div class="stat">
+      <div class="yr" id="yr">2025</div>
+      <div class="row"><span>PV-Gebäude</span><b id="nbld">–</b></div>
+      <div class="row"><span>installiert</span><b class="big" id="mwp">–</b></div>
+      <div class="row"><span>von Dächern</span><b id="share">–</b></div>
+    </div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--none)"></i> noch keine PV</span>
+      <span><i class="dot" style="background:transparent;box-shadow:inset 0 0 0 1.5px var(--none)"></i> kein geeignetes Dach</span>
+      <span><i class="dot" style="background:var(--solar)"></i> PV vorhanden</span>
+      <span><i class="dot" style="background:var(--solar-glow);box-shadow:0 0 6px var(--solar-glow)"></i> neu dieses Jahr</span>
+    </div>
+  </div>
+
+  <div class="groups" id="groups"></div>
+
+  <footer>
+    Nachgelagerte, monotone Adoption (ein geteilter Schwellwert je Gebäude auf die AP-2-Wahrscheinlichkeit) —
+    einmal PV, bleibt PV. Anlagengröße aus der MaStR-Verteilung der Haushalte, nach Größenklassen auf das
+    Dachpotenzial des Solarkatasters NRW (LANUK) gelegt; Gebäude ohne geeignetes Dach bekommen keine PV.
+    Daten: InfDB (Gebäude, Solarkataster), MaStR, Zielonka-Ensemble (Mengenziel). Lauf Reichshof 05374040, Seed 42.
+  </footer>
+</div>
+
+<script>
+const GROUPS = [["EFH_Eig","Eigentümer-EFH"],["EFH_Miet","Mieter-EFH"],["MFH","MFH"]];
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+let D=null, scenario="referenz", year=2025, playing=false, boundary=null;
+const cv=document.getElementById("map"), ctx=cv.getContext("2d");
+let W=0,H=0,proj=null;
+
+Promise.all([
+  fetch("reichshof_fillmap.json").then(r=>r.json()),
+  fetch("reichshof_boundary.geojson").then(r=>r.json()).catch(()=>null)
+]).then(([d,b])=>{ D=d; boundary=b; buildGroupCards(); resize(); render(); });
+
+function buildGroupCards(){
+  const el=document.getElementById("groups");
+  el.innerHTML = GROUPS.map(([k,label])=>`
+    <div class="gcard" data-g="${k}">
+      <div class="t"><span>${label}</span><span class="n" data-n="${k}"></span></div>
+      <div class="v" data-v="${k}">–</div>
+      <div class="track"><div class="fill" data-f="${k}" style="width:0%"></div></div>
+    </div>`).join("");
+}
+
+function bounds(){
+  let loN=1e9,laN=1e9,loX=-1e9,laX=-1e9;
+  for(let i=0;i<D.lon.length;i++){loN=Math.min(loN,D.lon[i]);loX=Math.max(loX,D.lon[i]);laN=Math.min(laN,D.lat[i]);laX=Math.max(laX,D.lat[i]);}
+  return {loN,loX,laN,laX};
+}
+function resize(){
+  const r=cv.getBoundingClientRect(), dpr=Math.min(window.devicePixelRatio||1,2);
+  W=r.width; H=r.height; cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  if(!D) return;
+  const {loN,loX,laN,laX}=bounds();
+  const latC=(laN+laX)/2, kx=Math.cos(latC*Math.PI/180);
+  const pad=22, aw=W-2*pad, ah=H-2*pad;
+  const dw=(loX-loN)*kx, dh=(laX-laN);
+  const s=Math.min(aw/dw, ah/dh);
+  const ox=pad+(aw-dw*s)/2, oy=pad+(ah-dh*s)/2;
+  proj=(lon,lat)=>[ox+(lon-loN)*kx*s, oy+(laX-lat)*s];
+}
+window.addEventListener("resize",()=>{resize();render();});
+
+function drawBoundary(){
+  if(!boundary) return;
+  const polys = boundary.type==="Polygon"?[boundary.coordinates]:boundary.coordinates;
+  ctx.strokeStyle=css("--line"); ctx.lineWidth=1.4; ctx.globalAlpha=.9;
+  for(const poly of polys) for(const ring of poly){
+    ctx.beginPath();
+    ring.forEach((c,i)=>{const[x,y]=proj(c[0],c[1]); i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+    ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+}
+
+function render(){
+  if(!D||!proj){return;}
+  ctx.clearRect(0,0,W,H);
+  drawBoundary();
+  const fill=D.fill[scenario];
+  const cNone=css("--none"), cPV=css("--solar"), cNew=css("--solar-glow");
+  // zuerst die "ohne PV", dann PV, dann neu (Reihenfolge = Zeichen-Priorität)
+  const neu=[];
+  let nb=0, mwp=0;
+  const gTot={EFH_Eig:0,EFH_Miet:0,MFH:0}, gPV={EFH_Eig:0,EFH_Miet:0,MFH:0};
+  for(let i=0;i<D.lon.length;i++){
+    const[x,y]=proj(D.lon[i],D.lat[i]);
+    const fy=fill[i], has=fy>0&&fy<=year;
+    gTot[D.grp[i]]++;
+    if(has){
+      nb++; mwp+=D.kwp[i]; gPV[D.grp[i]]++;
+      const isNew=(year-fy)<1.3;
+      if(isNew){neu.push([x,y]);}
+      else{ctx.fillStyle=cPV; ctx.globalAlpha=.9; dot(x,y,2.1);}
+    }else if(D.roof_kwp[i]===0){
+      ctx.strokeStyle=cNone; ctx.globalAlpha=.75; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(x,y,1.9,0,Math.PI*2); ctx.stroke();
+    }else{
+      ctx.fillStyle=cNone; ctx.globalAlpha=.5; dot(x,y,1.7);
+    }
+  }
+  // neu obendrauf mit Glow
+  ctx.globalAlpha=1;
+  for(const[x,y]of neu){
+    ctx.fillStyle=cNew; ctx.shadowColor=cNew; ctx.shadowBlur=7; dot(x,y,2.7); ctx.shadowBlur=0;
+  }
+  ctx.globalAlpha=1;
+  // Kennzahlen
+  document.getElementById("yr").textContent=Math.round(year);
+  document.getElementById("nbld").textContent=nb.toLocaleString("de-DE");
+  document.getElementById("mwp").textContent=(mwp/1000).toLocaleString("de-DE",{maximumFractionDigits:1})+" MWp";
+  const roofTot=D.roof_kwp.reduce((a,b)=>a+b,0)/1000;
+  document.getElementById("share").textContent=Math.round(mwp/1000/roofTot*100)+" % v. Dach";
+  for(const[k,_]of GROUPS){
+    const pct=gTot[k]?Math.round(gPV[k]/gTot[k]*100):0;
+    document.querySelector(`[data-v="${k}"]`).textContent=pct+" %";
+    document.querySelector(`[data-f="${k}"]`).style.width=pct+"%";
+    document.querySelector(`[data-n="${k}"]`).textContent=gPV[k].toLocaleString("de-DE")+"/"+gTot[k].toLocaleString("de-DE");
+  }
+}
+function dot(x,y,r){ctx.beginPath();ctx.arc(x,y,r,0,6.283);ctx.fill();}
+
+// Steuerung
+const slider=document.getElementById("slider"), playBtn=document.getElementById("play");
+slider.addEventListener("input",()=>{year=+slider.value;stop();render();});
+playBtn.addEventListener("click",()=>playing?stop():start());
+document.getElementById("pills").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b)return;
+  scenario=b.dataset.s;
+  [...e.currentTarget.children].forEach(x=>x.setAttribute("aria-pressed", x===b));
+  render();
+});
+let raf=null, last=0;
+function start(){ if(year>=2050)year=2025; playing=true; playBtn.textContent="❚❚"; playBtn.setAttribute("aria-label","Pause"); last=performance.now(); raf=requestAnimationFrame(tick); }
+function stop(){ playing=false; playBtn.textContent="▶"; playBtn.setAttribute("aria-label","Abspielen"); if(raf)cancelAnimationFrame(raf); }
+function tick(t){
+  const dt=(t-last)/1000; last=t;
+  year=Math.min(2050, year + dt*6); // ~4 s für 25 Jahre
+  slider.value=year; render();
+  if(year>=2050){stop();return;}
+  raf=requestAnimationFrame(tick);
+}
+</script>

@@ -63,7 +63,7 @@ def run(target: str, bundesland: str, fast: bool, saturation: str, infdb_dsn: st
         roof = fetch_infdb_roof_potential(target, infdb_dsn)
         print(f"\n[0] {roof.summary()}")
         metadata_df = build_metadata_df({target: roof.c_hi_kwp})
-        c_hi_source = "infdb"
+        c_hi_source = f"infdb/{roof.source}"
     elif saturation == "builda":
         from pv_hochlauf.io.saturation import fetch_builda_saturation_bulk, build_metadata_df
         c_hi_source = "builda"

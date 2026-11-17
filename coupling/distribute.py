@@ -2,8 +2,10 @@
 
 Je Szenario × Stützjahr:
   1. alpha aus dem Szenario-Schedule (structure.py) → PV-Margins Richtung gleichmäßig.
-  2. `total` so kalibrieren, dass die von AP2 verteilte Σ PV-Leistung das AP3.1-Band-Ziel trifft
-     (AP2 sized dachgedeckelt, Baustein 1).
+  2. `total` so kalibrieren, dass die von AP2 verteilte Σ PV-Leistung das AP3.1-Band-Ziel trifft.
+     AP 2 zieht die Anlagengrößen aus der MaStR-Verteilung (``mastr/mastr_pv_kwp.csv``) und legt sie nach
+     Größenklassen auf das Dachpotenzial (Solarkataster NRW in der InfDB, sonst LoD2-Dachfläche); Gebäude ohne
+     geeignetes Dach bekommen keine PV.
   3. AP2-Lauf, Ergebnis je Gebäude + Aufschlüsselung speichern.
 
 Ausführen aus dem ObjectTypeGenerator-Verzeichnis (dessen venv hat AP2):
@@ -14,6 +16,7 @@ Ausführen aus dem ObjectTypeGenerator-Verzeichnis (dessen venv hat AP2):
 """
 from __future__ import annotations
 import argparse, json, sys
+from dataclasses import replace
 from pathlib import Path
 import numpy as np, pandas as pd, sqlalchemy
 
@@ -21,6 +24,7 @@ from objecttypegenerator.adapters.parameter_files import (
     load_construction_period_shares, load_design_temperatures, load_technologies, resolve_path)
 from objecttypegenerator.adapters.zensus_csv import load_census_tables
 from objecttypegenerator.adapters.infdb import InfdbBuildingSource
+from objecttypegenerator.adapters.quantile_files import PV_KWP_FILE, with_derived_distributions
 from objecttypegenerator.application.pipeline import run_generation
 from objecttypegenerator.application.reference_data import prepare_reference_data
 from objecttypegenerator.application.settings import RunSettings
@@ -32,13 +36,17 @@ from structure import pv_with_structure  # noqa: E402
 SCEN_QUANTILE = {"konservativ": "p25_MWp", "referenz": "p50_MWp", "ambitioniert": "p75_MWp"}
 STUETZJAHRE = [2025, 2030, 2035, 2040, 2045, 2050]
 PV_PACKAGE_DEFAULT = "additional-information"
+MASTR_DIR = Path(__file__).resolve().parent / "mastr"  # mastr_pv_kwp.csv (derive_pv_kwp.py)
 # PV-total deckeln: darüber bleiben zu wenige PV-lose Haushalte für balcony_pv (excluded_by pv).
 # 0,95 liegt weit über dem, was die MWp-Ziele brauchen (dachbegrenzt << 95 % Durchdringung).
 MAX_TOTAL = 0.95
 
 
 def load_inputs(dsn: str, ags: str):
-    settings = RunSettings(seed=42)
+    if not (MASTR_DIR / PV_KWP_FILE).exists():
+        raise SystemExit(f"{MASTR_DIR / PV_KWP_FILE} fehlt — erst coupling/mastr/derive_pv_kwp.py ausführen.")
+    base = RunSettings(seed=42)
+    settings = replace(base, sizing=with_derived_distributions(base.sizing, MASTR_DIR))
     frame = InfdbBuildingSource(sqlalchemy.create_engine(dsn),
                                 input_schema="basedata", heat_loss_schema="ro_heat").load(ags)
     census = load_census_tables(Path(PV_PACKAGE_DEFAULT))

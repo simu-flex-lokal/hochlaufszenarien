@@ -14,8 +14,10 @@ Nachbarschafts-Spillover.
 > MaStR-Bestandshistorie je Gemeinde; **Anzahl und Leistung kommen damit empirisch** (enthalten reale,
 > auch suboptimale Adopter). Zwei Festlegungen weichen vom obigen Erstansatz ab:
 > - **Potential/Sättigung = aggregiertes Dachpotenzial `C_hi`** (lockere Obergrenze `MWp ≤ C_hi`),
->   seit 2026-11 aus der **InfDB** statt BUILDA: Σ Wohngebäude LoD2-Dachfläche × 0,4 × 0,205 kWp/m²
->   (`io/infdb_saturation.py`), identisch mit dem Dach-Deckel je Gebäude in AP 2. Grund: eine Datenbasis für
+>   seit 2026-11 aus der **InfDB** statt BUILDA: Σ über die bewohnten Wohngebäude der installierbaren
+>   Leistung laut **Solarkataster NRW** (LANUK; Laserscan, Verschattung, Modulbelegung; per ALKIS-ID =
+>   InfDB-`objectid` verknüpft, `db/import_solarkataster.py`), ohne Kataster LoD2-Dachfläche × 0,4 ×
+>   0,205 kWp/m² (`io/infdb_saturation.py`) — dieselbe Regel wie das Dachpotenzial je Gebäude in AP 2. Grund: eine Datenbasis für
 >   AP 2, AP 3.1 und die Netzsimulation (pylovo baut die Netze aus denselben InfDB-Gebäuden).
 >   **nicht** als Per-Gebäude-Eignungsfilter. Das Solarkataster wird **nicht** als Eignungs-/Adoptionsfaktor
 >   konsumiert (keine Datengrundlage für die Kalibrierung Ertrag→Adoption; wäre eine grobe Annahme).

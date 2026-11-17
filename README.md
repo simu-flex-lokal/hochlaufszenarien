@@ -17,6 +17,7 @@ AP 2 (ObjectTypeGenerator) und die Netzsimulation (pylovo).
 | `pv_hochlauf/` | Modellpaket: Ensemble (`pipeline/`), Sättigung aus InfDB (`io/infdb_saturation.py`) + DB-Adapter (`io/`), Konfiguration/Modelle (`core/`), Plots (`visualization/`) |
 | `db/` | SQLite-Datenmodell (`schema.sql`) + Importer (MaStR, BUILDA, VG250) |
 | `docs/` | Methodik (`methodik_pv.md`, Framework, Zielonka-Umstellung), Literatur |
+| `coupling/` | AP 3.1 → AP 2: Band auf Gebäude verteilen (Struktur-Konvergenz, MaStR-Größen), Füllkarte |
 | `examples/` | AP-2-Kopplung (Rand + Live-Run). **Braucht** den ObjectTypeGenerator (AP 2, separates Repo) |
 
 ## Schnellstart
@@ -28,8 +29,11 @@ uv sync
 python db/build_db.py
 python db/import_mastr.py      # PV-Bestand je Gemeinde (OEDS)
 
-# 2) Hochlauf für eine Gemeinde rechnen (Default: Reichshof)
-# braucht die lokale InfDB mit der Gemeinde (basedata), siehe ../hochlauf/ap3_1_hochlaufszenarien/infdb_local_setup.md
+# 2) Solarkataster NRW (Dachpotenzial je Gebäude) in die lokale InfDB laden
+# InfDB mit der Gemeinde (basedata) nötig, siehe ../hochlauf/ap3_1_hochlaufszenarien/infdb_local_setup.md
+python db/import_solarkataster.py 05374040
+
+# 3) Hochlauf für eine Gemeinde rechnen (Default: Reichshof)
 python pv_hochlauf/run_phase1.py --target 05374040        # --saturation builda|default zum Vergleich
 ```
 

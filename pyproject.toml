@@ -16,7 +16,9 @@ dependencies = [
     "pandas>=3.0.5",
     "psycopg2-binary>=2.9.12",
     "pyarrow>=25.0.1",
+    "pyogrio>=0.13.0",
     "scipy>=1.17.1",
+    "shapely>=2.2.0",
     "tqdm>=4.70.0",
 ]
 
