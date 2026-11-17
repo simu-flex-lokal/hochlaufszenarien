@@ -11,7 +11,7 @@ Anlagengröße je Gebäude: einmal für alle Gebäude, die in irgendeinem Szenar
 Ausführen aus dem ObjectTypeGenerator-Verzeichnis (dessen venv hat AP 2), nach ``distribute.py``:
     cd ~/coding/simuflex/hochlauf/objekttypegenerator
     uv run python ~/coding/simuflex/hochlaufszenarien/coupling/export_fillmap.py \\
-        --scenarios /tmp/ap2_scenarios.json \\
+        --scenarios ~/coding/simuflex/hochlaufszenarien/notebooks/data/reichshof_ap2_scenarios.json \\
         --out ~/coding/simuflex/hochlaufszenarien/notebooks/data/reichshof_fillmap.json
 """
 from __future__ import annotations

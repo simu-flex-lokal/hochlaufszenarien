@@ -14,7 +14,7 @@ Ausführen aus dem ObjectTypeGenerator-Verzeichnis (dessen venv hat AP2):
     cd ~/coding/simuflex/hochlauf/objekttypegenerator
     uv run python ~/coding/simuflex/hochlaufszenarien/coupling/distribute.py \
         --band ~/coding/simuflex/hochlaufszenarien/notebooks/data/reichshof_band.csv \
-        --ags 05374040 --out /tmp/ap2_scenarios.json
+        --ags 05374040 --out ~/coding/simuflex/hochlaufszenarien/notebooks/data/reichshof_ap2_scenarios.json
 """
 from __future__ import annotations
 import argparse, json, sys
