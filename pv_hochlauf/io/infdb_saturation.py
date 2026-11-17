@@ -4,7 +4,8 @@ Gleiche Datenbasis und gleiche Regel wie AP 2 (ObjectTypeGenerator), auf denselb
 die Netze baut: bewohnte Wohngebäude aus ``basedata.buildings`` (``building_type`` gesetzt, ``occupants`` > 0).
 Dachpotenzial je Gebäude [kWp]:
 
-  1. Solarkataster NRW (``opendata.solarkataster_pv_dach``, geladen mit ``db/import_solarkataster.py``):
+  1. Solarkataster NRW (``opendata.solarkataster_nrw_pv_dach``, InfDB-Importquelle ``solarkataster-nrw``;
+     übergangsweise ``db/import_solarkataster.py``):
      Σ installierbare Leistung der Dachteilflächen. In einer importierten Gemeinde hat ein Gebäude ohne
      Dachteilfläche kein geeignetes Dach (0 kWp).
   2. sonst LoD2-Dachfläche × nutzbarer Anteil × kWp/m² (``basedata.building_surface_area``).
@@ -37,18 +38,18 @@ WHERE b.gemeindeschluessel = %(ags)s
   AND COALESCE(b.occupants, 0) > 0
 """
 _CADASTRE_JOIN = """LEFT JOIN (SELECT objectid, SUM(kw) AS kwp
-           FROM opendata.solarkataster_pv_dach
+           FROM opendata.solarkataster_nrw_pv_dach
            WHERE objectid IN (SELECT objectid FROM basedata.buildings WHERE gemeindeschluessel = %(ags)s)
            GROUP BY objectid) k ON k.objectid = b.objectid"""
 ROOF_SQL_WITH_CADASTRE = ("SELECT b.objectid, COALESCE(r.roof_area_m2, 0), k.kwp"
                           + _BUILDINGS.format(cadastre_join=_CADASTRE_JOIN))
 ROOF_SQL = "SELECT b.objectid, COALESCE(r.roof_area_m2, 0), NULL::float8" + _BUILDINGS.format(cadastre_join="")
 CADASTRE_IMPORTED_SQL = """
-SELECT EXISTS (SELECT 1 FROM opendata.solarkataster_pv_import WHERE gemeindeschluessel = %(ags)s)
+SELECT EXISTS (SELECT 1 FROM opendata.solarkataster_nrw_import WHERE ags = %(ags)s)
 """
 CADASTRE_TABLES_SQL = """
-SELECT to_regclass('opendata.solarkataster_pv_dach') IS NOT NULL
-   AND to_regclass('opendata.solarkataster_pv_import') IS NOT NULL
+SELECT to_regclass('opendata.solarkataster_nrw_pv_dach') IS NOT NULL
+   AND to_regclass('opendata.solarkataster_nrw_import') IS NOT NULL
 """
 
 
