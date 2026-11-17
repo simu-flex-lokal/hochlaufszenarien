@@ -1,12 +1,17 @@
 """run_phase1.py — Phase-1-Smoke-Test der Zielonka-Pipeline an unserer Datenquelle.
 
 Fährt die 4-Schritte-Pipeline für eine Zielgemeinde (Default Jülich 05358024) mit
-NRW als Referenzpool, Daten aus dem OEDS (db_adapter) statt Pickle. Sättigung
-zunächst über den Default-Multiplikator (USE_BUILDA_SATURATION aus); BUILDA-C_hi
-folgt im nächsten Schritt.
+NRW als Referenzpool, Daten aus dem OEDS (db_adapter) statt Pickle.
 
-Aufruf (Paket muss importierbar sein):
-    PYTHONPATH=hochlauf_model python3 hochlauf_model/pv_hochlauf/run_phase1.py
+Sättigung C_hi der Zielgemeinde (``--saturation``):
+  infdb   (Standard) Dachpotenzial der Wohngebäude aus der InfDB — dieselbe Datenbasis wie AP 2
+          und die Netzsimulation (pylovo); siehe io/infdb_saturation.py
+  builda  ETHOS.BUILDA über die API (alt, nur noch zum Vergleich)
+  default 5 × letzter Bestand
+Die Vergleichsgemeinden nutzen immer den Default-Multiplikator.
+
+Aufruf:
+    python pv_hochlauf/run_phase1.py --target 05374040
 """
 from __future__ import annotations
 
@@ -17,8 +22,8 @@ import time
 import pv_hochlauf.core.config as cfg
 
 
-def _configure(fast: bool, builda: bool):
-    cfg.USE_BUILDA_SATURATION = builda
+def _configure(fast: bool, saturation: str):
+    cfg.USE_BUILDA_SATURATION = saturation == "builda"
     cfg.FORCE_RECOMPUTE = True
     cfg.SAVE_DET_PROJ = False
     if fast:
@@ -29,8 +34,8 @@ def _configure(fast: bool, builda: bool):
         cfg.HINDCAST_MAX_SIMILAR = 80
 
 
-def run(target: str, bundesland: str, fast: bool, builda: bool):
-    _configure(fast, builda)
+def run(target: str, bundesland: str, fast: bool, saturation: str, infdb_dsn: str):
+    _configure(fast, saturation)
     # Imports erst JETZT (binden die gesetzten Config-Werte)
     from pv_hochlauf.io.db_adapter import load_mastr_pv
     from pv_hochlauf.io.database import prepare_timeseries, filter_timeseries
@@ -49,10 +54,19 @@ def run(target: str, bundesland: str, fast: bool, builda: bool):
         raise SystemExit(f"Ziel {target} nicht im validen Pool "
                          f"(in Daten: {target in ts_all}, ausgeschlossen: {target in excl}).")
 
-    # BUILDA-Sättigung C_hi je Gemeinde (nur für die Zielgemeinde — Pool: Default-Multiplikator)
+    # Sättigung C_hi nur für die Zielgemeinde — Pool: Default-Multiplikator
     metadata_df = None
-    if builda:
+    c_hi_source = "default"
+    if saturation == "infdb":
+        from pv_hochlauf.io.infdb_saturation import fetch_infdb_roof_potential
+        from pv_hochlauf.io.saturation import build_metadata_df
+        roof = fetch_infdb_roof_potential(target, infdb_dsn)
+        print(f"\n[0] {roof.summary()}")
+        metadata_df = build_metadata_df({target: roof.c_hi_kwp})
+        c_hi_source = "infdb"
+    elif saturation == "builda":
         from pv_hochlauf.io.saturation import fetch_builda_saturation_bulk, build_metadata_df
+        c_hi_source = "builda"
         grp = df[df["Gemeindeschluessel"] == target]
         cities = {target: {
             "Gemeinde": grp["Gemeinde"].iloc[0],
@@ -106,8 +120,11 @@ def run(target: str, bundesland: str, fast: bool, builda: bool):
     for q in (0.05, 0.25, 0.50, 0.75, 0.95):
         rows[f"p{int(q*100):02d}_MWp"] = np.round(e["quantiles"][q] / 1000, 2)
     pd.DataFrame(rows).to_csv(out, index=False)
+    from pv_hochlauf.pipeline.fitting import compute_saturation
+    c_hi_used = compute_saturation(target, float(valid[target]["kW_kum"].iloc[-1]), metadata_df)[1]
     meta = {"model_weights": {m: round(w, 4) for m, w in weights[target].items()},
-            "n_similar": prob[target]["n_similar"], "last_MWp": round(hist_last, 2)}
+            "n_similar": prob[target]["n_similar"], "last_MWp": round(hist_last, 2),
+            "C_hi_MWp": round(c_hi_used / 1000, 2), "C_hi_quelle": c_hi_source}
     import json
     (cfg.OUT_CSV / f"meta_{target}.json").write_text(json.dumps(meta, indent=1))
     print(f"\nBand exportiert: {out}")
@@ -119,10 +136,12 @@ def main():
     p.add_argument("--target", default="05358024", help="AGS Zielgemeinde (Default Jülich)")
     p.add_argument("--bundesland", default="Nordrhein-Westfalen", help="Referenzpool (None=DE)")
     p.add_argument("--full", action="store_true", help="volle (langsame) DE-Parameter statt fast")
-    p.add_argument("--builda", action="store_true", help="BUILDA-Dachflächen-Sättigung C_hi für die Zielgemeinde")
+    p.add_argument("--saturation", choices=("infdb", "builda", "default"), default="infdb",
+                   help="Quelle der Sättigung C_hi der Zielgemeinde (Standard: infdb)")
+    p.add_argument("--infdb-dsn", default="postgresql://infdb_user:infdb@127.0.0.1:54328/infdb")
     args = p.parse_args()
     bl = None if args.bundesland.lower() in ("none", "de", "deutschland") else args.bundesland
-    run(args.target, bl, fast=not args.full, builda=args.builda)
+    run(args.target, bl, fast=not args.full, saturation=args.saturation, infdb_dsn=args.infdb_dsn)
 
 
 if __name__ == "__main__":

@@ -13,7 +13,10 @@ Nachbarschafts-Spillover.
 > ([methodik_umstellung_zielonka.md](../methodik_umstellung_zielonka.md)) — fittet 12 Modelle an die reale
 > MaStR-Bestandshistorie je Gemeinde; **Anzahl und Leistung kommen damit empirisch** (enthalten reale,
 > auch suboptimale Adopter). Zwei Festlegungen weichen vom obigen Erstansatz ab:
-> - **Potential/Sättigung = aggregiertes BUILDA-Dachpotenzial `C_hi`** (lockere Obergrenze `MWp ≤ C_hi`),
+> - **Potential/Sättigung = aggregiertes Dachpotenzial `C_hi`** (lockere Obergrenze `MWp ≤ C_hi`),
+>   seit 2026-11 aus der **InfDB** statt BUILDA: Σ Wohngebäude LoD2-Dachfläche × 0,4 × 0,205 kWp/m²
+>   (`io/infdb_saturation.py`), identisch mit dem Dach-Deckel je Gebäude in AP 2. Grund: eine Datenbasis für
+>   AP 2, AP 3.1 und die Netzsimulation (pylovo baut die Netze aus denselben InfDB-Gebäuden).
 >   **nicht** als Per-Gebäude-Eignungsfilter. Das Solarkataster wird **nicht** als Eignungs-/Adoptionsfaktor
 >   konsumiert (keine Datengrundlage für die Kalibrierung Ertrag→Adoption; wäre eine grobe Annahme).
 > - **Keine Per-Gebäude-Eignungsgewichtung** im Score (kein Spatial-Durbin, kein Nachbarschafts-Spillover,
@@ -73,7 +76,7 @@ Vorbild: **Spatial-Durbin-Determinanten (PV-B1, NL, EFH-relevant)** — direkte 
 |---|---|
 | Dachflächen/-ertrag | Solarkataster NRW (LANUV), LoD2 Geobasis NRW |
 | PV-Bestand & Zubauhistorie | Marktstammdatenregister (MaStR), via `open-mastr` |
-| EFH-Bestand (gebäudescharf) | ETHOS.BUILDA (`size_class`, `position`); Zensus/OSM ergänzend |
+| Gebäudebestand (gebäudescharf) | InfDB `basedata` (LoD2-DE, Zensus 2022); früher ETHOS.BUILDA |
 | Zielpfad `P_max`/Stützwerte | Langfristszenarien T45, NEP |
 
 ## 6. Annahmen & offene Punkte

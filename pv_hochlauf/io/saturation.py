@@ -498,7 +498,7 @@ def build_metadata_df(saturation_data: Dict[str, float]) -> pd.DataFrame:
     df = pd.DataFrame(rows).set_index("Gemeinde")
     n_valid   = df["C_hi_kWp"].notna().sum()
     n_fallback = df["C_hi_kWp"].isna().sum()
-    print(f"metadata_df: {n_valid} mit BUILDA-Potenzial, "
+    print(f"metadata_df: {n_valid} mit Dachpotenzial, "
           f"{n_fallback} mit Fallback (default_multiplier)")
     return df
 
