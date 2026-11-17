@@ -21,7 +21,7 @@ from dataclasses import dataclass
 
 import pandas as pd
 
-DEFAULT_DSN = "postgresql://infdb_user:infdb@127.0.0.1:54328/infdb"
+DEFAULT_DSN = "postgresql://infdb_user:infdb@127.0.0.1:54338/infdb"
 ROOF_USABLE_FRACTION = 0.4  # = objecttypegenerator SizingSettings.pv_roof_usable_fraction
 KWP_PER_M2 = 0.205          # = objecttypegenerator SizingSettings.pv_kwp_per_m2
 IMPLAUSIBLE_ROOF_M2 = 5_000.0  # nur Hinweis: so große Dächer bei Wohngebäuden deuten auf fehlerhafte Geometrie

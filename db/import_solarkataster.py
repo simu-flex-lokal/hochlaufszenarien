@@ -35,7 +35,7 @@ import psycopg2
 from psycopg2.extras import execute_values
 
 BASE_URL = "https://www.opengeodata.nrw.de/produkte/umwelt_klima/energie/solarkataster/photovoltaik"
-DEFAULT_DSN = "postgresql://infdb_user:infdb@127.0.0.1:54328/infdb"
+DEFAULT_DSN = "postgresql://infdb_user:infdb@127.0.0.1:54338/infdb"
 SCHEMA = "opendata"
 SURFACES, IMPORTS = "solarkataster_nrw_pv_dach", "solarkataster_nrw_import"
 SRID = 25832

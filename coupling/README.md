@@ -26,8 +26,8 @@ uv run python ~/coding/simuflex/hochlaufszenarien/coupling/export_fillmap.py \
     --scenarios /tmp/ap2_scenarios.json \
     --out ~/coding/simuflex/hochlaufszenarien/notebooks/data/reichshof_fillmap.json
 ```
-Voraussetzung: lokale InfDB (Port 54328) mit `basedata`/`ro_heat` der AGS und dem Solarkataster
-(`db/import_solarkataster.py`), AP 2 auf dem Branch `feature/pv-roof-cap`.
+Voraussetzung: lokale InfDB auf develop (Port 54338, siehe `hochlauf/ap3_1_hochlaufszenarien/infdb_local_setup.md`) mit `basedata`/`ro_heat` der AGS und dem Solarkataster
+(InfDB-Quelle `solarkataster-nrw`, übergangsweise `db/import_solarkataster.py`), AP 2 auf dem Branch `feature/pv-roof-cap`.
 
 ## Ergebnis vorher (Ersatzgrößen, Dach-Deckel mit Faktor 0,4; überholt)
 Alle Band-Ziele getroffen, aber mit `alpha` ab 2035 (0,3 → 0,7 bis 2050) und 3.204 Gebäuden 2050, weil die

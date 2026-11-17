@@ -168,7 +168,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--band", required=True, help="Band-CSV (jahr, p05_MWp … p95_MWp)")
     p.add_argument("--ags", default="05374040")
-    p.add_argument("--dsn", default="postgresql+psycopg2://infdb_user:infdb@127.0.0.1:54328/infdb")
+    p.add_argument("--dsn", default="postgresql+psycopg2://infdb_user:infdb@127.0.0.1:54338/infdb")
     p.add_argument("--out", default="/tmp/ap2_scenarios.json")
     p.add_argument("--per-building", default=None, help="CSV-Export der referenz-2040-Verteilung")
     a = p.parse_args()

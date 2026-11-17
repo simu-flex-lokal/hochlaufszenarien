@@ -3,7 +3,7 @@
 Ausführen aus dem ObjectTypeGenerator-Verzeichnis (dort liegt das uv-venv + src/):
     cd ~/coding/simuflex/hochlauf/objekttypegenerator
     uv run python ~/coding/simuflex/hochlauf/hochlauf_model/pv_hochlauf/ap2_live_run.py <out.json>
-Voraussetzung: lokale InfDB läuft (podman, Port 54328) mit basedata/ro_heat für die AGS
+Voraussetzung: lokale InfDB auf develop läuft (Port 54338) mit basedata/ro_heat für die AGS
 (siehe ap3_1_hochlaufszenarien/infdb_local_setup.md) und hochlauf.sqlite mit dem AP3.1-Band.
 
 

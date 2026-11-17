@@ -138,7 +138,7 @@ def main():
     p.add_argument("--full", action="store_true", help="volle (langsame) DE-Parameter statt fast")
     p.add_argument("--saturation", choices=("infdb", "builda", "default"), default="infdb",
                    help="Quelle der Sättigung C_hi der Zielgemeinde (Standard: infdb)")
-    p.add_argument("--infdb-dsn", default="postgresql://infdb_user:infdb@127.0.0.1:54328/infdb")
+    p.add_argument("--infdb-dsn", default="postgresql://infdb_user:infdb@127.0.0.1:54338/infdb")
     args = p.parse_args()
     bl = None if args.bundesland.lower() in ("none", "de", "deutschland") else args.bundesland
     run(args.target, bl, fast=not args.full, saturation=args.saturation, infdb_dsn=args.infdb_dsn)
