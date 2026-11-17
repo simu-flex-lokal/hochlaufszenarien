@@ -2,7 +2,9 @@
 
 Je Szenario × Stützjahr:
   1. alpha aus dem Szenario-Schedule (structure.py) → PV-Margins Richtung gleichmäßig.
-  2. `total` so kalibrieren, dass die von AP2 verteilte Σ PV-Leistung das AP3.1-Band-Ziel trifft.
+  2. `total` so kalibrieren, dass die von AP2 verteilte Σ PV-Leistung das AP3.1-Band-Ziel trifft. `total` darf
+     unter dem KfW-Bundeswert liegen: Gemeinden mit weniger PV als der Bundesschnitt (z. B. Reichshof 2025)
+     brauchen eine kleinere Durchdringung, die KfW-Struktur (Anteile je Gruppe) bleibt dabei erhalten.
      AP 2 zieht die Anlagengrößen aus der MaStR-Verteilung (``mastr/mastr_pv_kwp.csv``) und legt sie nach
      Größenklassen auf das Dachpotenzial (Solarkataster NRW in der InfDB, sonst LoD2-Dachfläche); Gebäude ohne
      geeignetes Dach bekommen keine PV.
@@ -40,6 +42,7 @@ MASTR_DIR = Path(__file__).resolve().parent / "mastr"  # mastr_pv_kwp.csv (deriv
 # PV-total deckeln: darüber bleiben zu wenige PV-lose Haushalte für balcony_pv (excluded_by pv).
 # 0,95 liegt weit über dem, was die MWp-Ziele brauchen (dachbegrenzt << 95 % Durchdringung).
 MAX_TOTAL = 0.95
+MIN_TOTAL = 0.01  # Untergrenze der Bisektion (unter KfW-Bundeswert erlaubt, s. o.)
 
 
 def load_inputs(dsn: str, ags: str):
@@ -68,12 +71,12 @@ def _mwp(buildings) -> float:
     return float(buildings.loc[buildings.pv_vorhanden, "pv_leistung_kwp"].sum()) / 1000.0
 
 
-def _solve_total(frame, inputs, settings, *, target_mwp, alpha, base_total):
+def _solve_total(frame, inputs, settings, *, target_mwp, alpha):
     """Bei festem alpha `total` per Bisektion so wählen, dass Σ MWp ≈ Ziel. Robust gegen Überschießen:
     ein CalibrationError (z. B. balcony_pv bei zu hoher Durchdringung) gilt als 'total zu hoch'.
     Gibt (t, buildings, m) zurück; bleibt m < Ziel, ist das Ziel bei diesem alpha nicht erreichbar."""
-    lo, hi = base_total, MAX_TOTAL
-    best = None  # (t, b, m), höchstes erreichtes m
+    lo, hi = MIN_TOTAL, MAX_TOTAL
+    best = None  # (t, b, m), m am nächsten am Ziel
     for _ in range(12):
         mid = (lo + hi) / 2.0
         try:
@@ -82,7 +85,7 @@ def _solve_total(frame, inputs, settings, *, target_mwp, alpha, base_total):
         except CalibrationError:
             hi = mid  # zu hoch (IPF/balcony) → Obergrenze senken
             continue
-        if best is None or m > best[2]:
+        if best is None or abs(m - target_mwp) < abs(best[2] - target_mwp):
             best = (mid, b, m)
         if abs(m - target_mwp) <= 0.1:
             return mid, b, m
@@ -90,13 +93,13 @@ def _solve_total(frame, inputs, settings, *, target_mwp, alpha, base_total):
             lo = mid
         else:
             hi = mid
-    if best is None:  # selbst base_total bricht → erzwinge ein Ergebnis am unteren Rand
-        b = run_once(frame, inputs, settings, base_total, alpha)
-        best = (base_total, b, _mwp(b))
+    if best is None:  # alles bricht → erzwinge ein Ergebnis am unteren Rand
+        b = run_once(frame, inputs, settings, MIN_TOTAL, alpha)
+        best = (MIN_TOTAL, b, _mwp(b))
     return best
 
 
-def calibrate(frame, inputs, settings, *, target_mwp, base_total, alpha_step=0.1):
+def calibrate(frame, inputs, settings, *, target_mwp, alpha_step=0.1):
     """Kleinstes alpha (Struktur-Angleichung) finden, bei dem sich das MWp-Ziel real unterbringen
     lässt — alpha ist damit ein Ergebnis, keine Annahme. Pro alpha wird `total` kalibriert."""
     a = 0.0
@@ -104,7 +107,7 @@ def calibrate(frame, inputs, settings, *, target_mwp, base_total, alpha_step=0.1
     while True:
         try:
             t, b, m = _solve_total(frame, inputs, settings, target_mwp=target_mwp,
-                                   alpha=a, base_total=base_total)
+                                   alpha=a)
             last = (t, a, b)
             if m >= target_mwp - 0.1:
                 return t, a, b
@@ -145,7 +148,7 @@ def run_scenarios(band_csv: str, ags: str, dsn: str, out_json: str, per_building
             if yr not in band.index:
                 continue
             target = float(band.loc[yr, col])
-            t, a, b = calibrate(frame, inputs, settings, target_mwp=target, base_total=base_total)
+            t, a, b = calibrate(frame, inputs, settings, target_mwp=target)
             ist = _mwp(b)
             rec = {"ziel_mwp": round(target, 2), "ist_mwp": round(ist, 2),
                    "pv_total": round(t, 4), "alpha": round(a, 3),
