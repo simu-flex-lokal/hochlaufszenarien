@@ -60,8 +60,9 @@ Gleiche Werkzeuge ohne Handarbeit, nur AGS und Dateinamen geändert. 5.804 bewoh
 - **Bis 2050:** alle 18 Band-Ziele getroffen, aber mit Struktur-Angleichung: `alpha` referenz 0,2 ab 2040, 0,4 ab
   2045 (konservativ 0,1 → 0,4; ambitioniert 0,1 ab 2035 → 0,5). `total` referenz 0,201 → 0,502; 2050: 3.272 Gebäude.
   Grund: höheres Ziel je Gebäude (2050 p50 5,1 kWp/Wohngebäude statt 3,6) bei weniger EFH-Eigentümern
-  (3.236 statt 4.016). Die KfW-Struktur legt PV vor allem auf EFH-Eigentümer; deren Dächer reichen allein
-  nicht, also muss PV auf MFH und Mieter-EFH ausweichen.
+  (3.236 statt 4.016). Mit KfW-Struktur (`alpha` 0) ist ab `total` ≈ 0,4 keine Lösung mehr möglich: AP 2 meldet
+  `Calibrated rate 1.106 exceeds 1`, die Gruppe mit dem höchsten KfW-Anteil bräuchte mehr als 100 % PV. Das
+  Dachpotenzial ist nicht die Grenze. Also muss PV stärker auf MFH und Mieter-EFH.
 - PV-Anteil referenz 2025 → 2050: EFH-Eigentümer 33 → 74 %, EFH-Mieter 9 → 34 %, MFH 9 → 34 %.
 - Keine PV auf Dächern ohne Eignung, keine Anlage über ihrem Dach. Kalibrierung:
   `notebooks/data/wipperfuerth_ap2_scenarios.json`, Füllkarten-Daten `notebooks/data/wipperfuerth_fillmap.json`
