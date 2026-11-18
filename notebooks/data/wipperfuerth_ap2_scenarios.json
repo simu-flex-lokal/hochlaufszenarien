@@ -1,0 +1,462 @@
+{
+ "ags": "05374052",
+ "hinweis": "alpha = minimal noetige Struktur-Angleichung (0=KfW2025, 1=gleichmaessig)",
+ "szenarien": {
+  "konservativ": {
+   "2025": {
+    "ziel_mwp": 11.78,
+    "ist_mwp": 11.87,
+    "pv_total": 0.2009,
+    "alpha": 0.0,
+    "erreicht": true,
+    "pv_gebaeude": 1323,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 1080,
+      "mwp": 9.8
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 50,
+      "mwp": 0.46
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 193,
+      "mwp": 1.61
+     }
+    }
+   },
+   "2030": {
+    "ziel_mwp": 16.4,
+    "ist_mwp": 16.36,
+    "pv_total": 0.267,
+    "alpha": 0.0,
+    "erreicht": true,
+    "pv_gebaeude": 1785,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 1454,
+      "mwp": 13.29
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 67,
+      "mwp": 0.63
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 264,
+      "mwp": 2.45
+     }
+    }
+   },
+   "2035": {
+    "ziel_mwp": 20.19,
+    "ist_mwp": 20.21,
+    "pv_total": 0.3313,
+    "alpha": 0.0,
+    "erreicht": true,
+    "pv_gebaeude": 2208,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 1806,
+      "mwp": 16.36
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 87,
+      "mwp": 0.87
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 315,
+      "mwp": 2.97
+     }
+    }
+   },
+   "2040": {
+    "ziel_mwp": 23.6,
+    "ist_mwp": 23.53,
+    "pv_total": 0.3882,
+    "alpha": 0.1,
+    "erreicht": true,
+    "pv_gebaeude": 2584,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 2068,
+      "mwp": 18.81
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 107,
+      "mwp": 1.01
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 409,
+      "mwp": 3.7
+     }
+    }
+   },
+   "2045": {
+    "ziel_mwp": 26.28,
+    "ist_mwp": 26.28,
+    "pv_total": 0.4396,
+    "alpha": 0.3,
+    "erreicht": true,
+    "pv_gebaeude": 2871,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 2173,
+      "mwp": 19.84
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 144,
+      "mwp": 1.41
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 554,
+      "mwp": 5.04
+     }
+    }
+   },
+   "2050": {
+    "ziel_mwp": 28.27,
+    "ist_mwp": 28.33,
+    "pv_total": 0.48,
+    "alpha": 0.4,
+    "erreicht": true,
+    "pv_gebaeude": 3122,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 2281,
+      "mwp": 20.74
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 170,
+      "mwp": 1.55
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 671,
+      "mwp": 6.05
+     }
+    }
+   }
+  },
+  "referenz": {
+   "2025": {
+    "ziel_mwp": 11.86,
+    "ist_mwp": 11.87,
+    "pv_total": 0.2009,
+    "alpha": 0.0,
+    "erreicht": true,
+    "pv_gebaeude": 1323,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 1080,
+      "mwp": 9.8
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 50,
+      "mwp": 0.46
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 193,
+      "mwp": 1.61
+     }
+    }
+   },
+   "2030": {
+    "ziel_mwp": 17.28,
+    "ist_mwp": 17.21,
+    "pv_total": 0.2817,
+    "alpha": 0.0,
+    "erreicht": true,
+    "pv_gebaeude": 1883,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 1537,
+      "mwp": 14.04
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 71,
+      "mwp": 0.66
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 275,
+      "mwp": 2.51
+     }
+    }
+   },
+   "2035": {
+    "ziel_mwp": 21.5,
+    "ist_mwp": 21.54,
+    "pv_total": 0.3552,
+    "alpha": 0.0,
+    "erreicht": true,
+    "pv_gebaeude": 2372,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 1941,
+      "mwp": 17.53
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 91,
+      "mwp": 0.91
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 340,
+      "mwp": 3.1
+     }
+    }
+   },
+   "2040": {
+    "ziel_mwp": 25.09,
+    "ist_mwp": 25.09,
+    "pv_total": 0.4139,
+    "alpha": 0.2,
+    "erreicht": true,
+    "pv_gebaeude": 2752,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 2138,
+      "mwp": 19.36
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 131,
+      "mwp": 1.15
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 483,
+      "mwp": 4.58
+     }
+    }
+   },
+   "2045": {
+    "ziel_mwp": 27.75,
+    "ist_mwp": 27.81,
+    "pv_total": 0.4708,
+    "alpha": 0.4,
+    "erreicht": true,
+    "pv_gebaeude": 3059,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 2229,
+      "mwp": 20.11
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 168,
+      "mwp": 1.6
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 662,
+      "mwp": 6.1
+     }
+    }
+   },
+   "2050": {
+    "ziel_mwp": 29.7,
+    "ist_mwp": 29.62,
+    "pv_total": 0.502,
+    "alpha": 0.4,
+    "erreicht": true,
+    "pv_gebaeude": 3272,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 2395,
+      "mwp": 21.7
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 180,
+      "mwp": 1.6
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 697,
+      "mwp": 6.31
+     }
+    }
+   }
+  },
+  "ambitioniert": {
+   "2025": {
+    "ziel_mwp": 11.96,
+    "ist_mwp": 11.87,
+    "pv_total": 0.2009,
+    "alpha": 0.0,
+    "erreicht": true,
+    "pv_gebaeude": 1323,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 1080,
+      "mwp": 9.8
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 50,
+      "mwp": 0.46
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 193,
+      "mwp": 1.61
+     }
+    }
+   },
+   "2030": {
+    "ziel_mwp": 18.48,
+    "ist_mwp": 18.45,
+    "pv_total": 0.3001,
+    "alpha": 0.0,
+    "erreicht": true,
+    "pv_gebaeude": 2007,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 1644,
+      "mwp": 15.01
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 74,
+      "mwp": 0.73
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 289,
+      "mwp": 2.72
+     }
+    }
+   },
+   "2035": {
+    "ziel_mwp": 23.53,
+    "ist_mwp": 23.53,
+    "pv_total": 0.3882,
+    "alpha": 0.1,
+    "erreicht": true,
+    "pv_gebaeude": 2584,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 2068,
+      "mwp": 18.81
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 107,
+      "mwp": 1.01
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 409,
+      "mwp": 3.7
+     }
+    }
+   },
+   "2040": {
+    "ziel_mwp": 27.42,
+    "ist_mwp": 27.41,
+    "pv_total": 0.458,
+    "alpha": 0.3,
+    "erreicht": true,
+    "pv_gebaeude": 2998,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 2268,
+      "mwp": 20.74
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 151,
+      "mwp": 1.44
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 579,
+      "mwp": 5.24
+     }
+    }
+   },
+   "2045": {
+    "ziel_mwp": 30.16,
+    "ist_mwp": 30.16,
+    "pv_total": 0.5167,
+    "alpha": 0.5,
+    "erreicht": true,
+    "pv_gebaeude": 3319,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 2349,
+      "mwp": 21.28
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 196,
+      "mwp": 1.85
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 774,
+      "mwp": 7.03
+     }
+    }
+   },
+   "2050": {
+    "ziel_mwp": 32.12,
+    "ist_mwp": 32.1,
+    "pv_total": 0.5498,
+    "alpha": 0.5,
+    "erreicht": true,
+    "pv_gebaeude": 3504,
+    "aufschluesselung": {
+     "EFH_Eigentuemer": {
+      "gebaeude": 3236,
+      "mit_pv": 2487,
+      "mwp": 22.74
+     },
+     "EFH_Mieter": {
+      "gebaeude": 535,
+      "mit_pv": 204,
+      "mwp": 1.88
+     },
+     "MFH": {
+      "gebaeude": 2033,
+      "mit_pv": 813,
+      "mwp": 7.48
+     }
+    }
+   }
+  }
+ }
+}
