@@ -97,7 +97,7 @@ def export(scenarios_json: str, ags: str, dsn: str, out: str) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--scenarios", required=True, help="Ergebnis von distribute.py (JSON)")
-    parser.add_argument("--ags", default="05374040")
+    parser.add_argument("--ags", required=True, help="AGS der Gemeinde (8-stellig)")
     parser.add_argument("--dsn", default="postgresql+psycopg2://infdb_user:infdb@127.0.0.1:54338/infdb")
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
