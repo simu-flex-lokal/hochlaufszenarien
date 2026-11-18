@@ -1,0 +1,20 @@
+{
+ "model_weights": {
+  "Bass": 0.0701,
+  "Bertalanffy": 0.0574,
+  "Gompertz": 0.0763,
+  "Logistisch": 0.0755,
+  "Richards-4p": 0.0719,
+  "Richards-5p": 0.0682,
+  "Bi-Bass": 0.0762,
+  "Bi-Bertalanffy": 0.1106,
+  "Bi-Gompertz": 0.0519,
+  "Bi-Logistisch": 0.0866,
+  "Bi-Richards-4p": 0.1259,
+  "Bi-Richards-5p": 0.1295
+ },
+ "n_similar": 121,
+ "last_MWp": 12.45,
+ "C_hi_MWp": 84.89,
+ "C_hi_quelle": "infdb/solarkataster"
+}
